@@ -1,0 +1,117 @@
+Features:
+	Sign up
+	Log in
+	Просмотр товаров в корзине так же общая сумма и фамилия владельца корзины
+	Страница деталей продукта с описанием 
+	Управление корзиной
+	Заказ корзины (Обновление остатков и переход на страницу со списком товаров) 
+	Сортировка товаров по категориям, и сылки на категорию 
+	Артикул товара
+	Цена за штуку
+	Общее количество на складе
+	Слой DAO и сервисов  должен конфигурироваться в Spring через xml
+	Слой контроллеров - через аннотации 
+	Не изменяя код созданных XXXService и XXXDao и не удаляя объявление бина XXXDaoImpl в xml-конфигурации Spring, сделать так, чтобы на главной странице не выводились товары со значением остатка 0.
+	Нужно создать дополнительный ModifiedContactDaoImpl и используя xml-конфигурацию Spring и тег alias, использовать его вместо ContactDaoImpl.
+
+
+Objects:
+	Product
+		id
+		vendor code
+		name
+		price
+		categories
+		description
+		amount		
+	User
+		id
+		username
+		last name
+		first name
+		password 
+	Order
+		id
+		user
+		list
+		amount
+		total prise
+		update product amount		
+	Category
+		id
+		title
+		list product
+	Bucket
+		id
+		user
+		list product
+		amount
+		prise
+		order
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Пример кода загрузки начальных данных из CSV
+
+
+ <dependency>
+            <groupId>net.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>1.8</version>
+        </dependency>
+
+
+private void loadData(Resource resource, Class clazz, CrudRepository crudRepository) throws RuntimeException {
+   try {
+       CSVReader csvReader = new CSVReader(new InputStreamReader(resource.getInputStream()), ';');
+       String[] columnHeaders = null;
+       String[] record;
+
+       while ((record = csvReader.readNext()) != null) {
+           if (columnHeaders == null) {
+               columnHeaders = record;
+           } else {
+
+               Object entity = clazz.newInstance();
+
+               for (int i = 0; i < columnHeaders.length; i++) {
+                   String propertyName = columnHeaders[i];
+                   String propertyValue = record[i];
+                   if (null != propertyName) {
+                       switch (propertyName) {
+                           case "currency":
+                               BeanUtils.setProperty(entity, propertyName, Currency.valueOf(propertyValue));
+                               break;
+                           default:
+                               BeanUtils.setProperty(entity, propertyName, propertyValue);
+                               break;
+                       }
+                   }
+
+               }
+               crudRepository.save(entity);
+
+           }
+       }
+
+   } catch (Exception ex) {
+       throw new RuntimeException(ex);
+   }
+}
