@@ -1,2 +1,5 @@
-package obj;public class Product {
+package obj;
+
+public class Product {
+
 }
