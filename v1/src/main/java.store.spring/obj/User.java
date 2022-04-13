@@ -2,7 +2,7 @@ package obj;
 
 
 public class User {
-    private static int id = 0;
+    private int id = 0;
     private String username;
     private String lastname;
     private String firstname;
