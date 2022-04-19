@@ -1,12 +1,19 @@
 package obj;
 
+import jakarta.persistence.*;
 
+@Entity // Указывает, что данный бин (класс) является сущностью.
+@Table(name = "users")
 public class User {
+    @Id
     private int id = 0;
     private String username;
     private String lastname;
     private String firstname;
     private int password;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
+    private Bucket bucket;
 
 
     public User(String username, String lastname, String firstname, int password) {

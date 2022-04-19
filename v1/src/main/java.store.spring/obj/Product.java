@@ -1,12 +1,26 @@
 package obj;
 
+import jakarta.persistence.*;
+
+import java.util.List;
+
+@Entity // Указывает, что данный бин (класс) является сущностью.
+@Table(name = "products")
 public class Product {
+    @Id
     private int id = 0;
-    private int vendor;
+    private int vendor; //артикул
     private String name;
     private double price;
     private int amount;
     private String description;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable (name = "products_categories",
+            joinColumns = @JoinColumn (name = "product_id"),
+            inverseJoinColumns = @JoinColumn (name = "category_id"))
+    private List<Category> categories;
+
 
     public Product(int vendor, String name, double price) {
         this.vendor = vendor;
