@@ -7,7 +7,11 @@ import java.util.List;
 @Entity // Указывает, что данный бин (класс) является сущностью.
 @Table(name = "products")
 public class Product {
+    private static final String SEQ_NAME = "bucket_seq";
+
     @Id
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
+    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private int id = 0;
     private int vendor; //артикул
     private String name;
