@@ -29,24 +29,26 @@ alter table if exists buckets -- изменим таблицу если буде
 create sequence category_seq start 1 increment 1;
 
 create table categories (
-                            id int8 not null,
-                            title varchar(255),
+                            id not null,
+                            name varchar,
                             primary key (id)
 );
 -- PRODUCTS
 create sequence product_seq start 1 increment 1;
 
 create table products (
-                          id int8 not null,
-                          price float8,
-                          title varchar(255),
+                          id int not null,
+                          vendor int,
+                          name varchar,
+                          price float,
+                          amount int,
                           primary key (id)
 );
 
 -- CATEGORY AND PRODUCT
 create table products_categories (
-                                     product_id int8 not null,
-                                     category_id int8 not null
+                                     product_id int not null,
+                                     category_id int not null
 );
 
 alter table if exists products_categories
@@ -59,8 +61,8 @@ alter table if exists products_categories
 
 -- PRODUCTS IN BUCKET
 create table bucket_products (
-                                 bucket_id int8 not null,
-                                 product_id int8 not null
+                                 bucket_id int not null,
+                                 product_id int not null
 );
 
 alter table if exists bucket_products
@@ -75,13 +77,12 @@ alter table if exists bucket_products
 create sequence order_seq start 1 increment 1;
 
 create table orders (
-                        id int8 not null,
-                        address varchar(255),
-                        changed timestamp,
-                        created timestamp,
-                        status varchar(255),
-                        sum numeric(19, 2),
-                        user_id int8,
+                        id int not null,
+                        order_id int not null,
+                        product_id int not null,
+                        quantity float,
+                        totalAmount float,
+                        user_id int,
                         primary key (id)
 );
 
@@ -89,22 +90,7 @@ alter table if exists orders
     add constraint orders_fk_user
     foreign key (user_id) references users;
 
--- DETAILS OF ORDER
-create sequence order_details_seq start 1 increment 1;
-
-create table orders_details (
-                                id int8 not null,
-                                order_id int8 not null,
-                                product_id int8 not null,
-                                amount numeric(19, 2),
-                                price numeric(19, 2),
-                                primary key (id)
-);
-
-alter table if exists orders_details
-    add constraint orders_details_fk_order
-    foreign key (order_id) references orders;
-
-alter table if exists orders_details
-    add constraint orders_details_fk_product
+alter table if exists orders
+    add constraint orders_fk_product
     foreign key (product_id) references products;
+

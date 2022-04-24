@@ -11,8 +11,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private int id = 0;
-    private double price;
+    //private double price;
     private double totalAmount = 0;
+    private int quantity; //количество
     @OneToMany
     @JoinColumn (name = "product_id")
     private Product product;
