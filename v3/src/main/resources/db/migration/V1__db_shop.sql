@@ -8,6 +8,7 @@ create table users (
                        firstname varchar(255),
                        password varchar(255),
                        archive boolean not null,
+                       role varchar(255),
                        bucket_id int8,
                        primary key (id)
 );

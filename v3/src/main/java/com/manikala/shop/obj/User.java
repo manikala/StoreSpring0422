@@ -27,6 +27,9 @@ public class User {
     private String password;
     private boolean archive; // Есть ли пользователь в архиве
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @OneToOne(cascade = CascadeType.REMOVE)
     private Bucket bucket;
 }
