@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // implements
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
+                .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.CLIENT.name()) //Кто может просматривать users
                 .antMatchers("/user/new").hasAuthority(Role.ADMIN.name())//создание юзеров
                 .anyRequest().permitAll()
                 .and()
