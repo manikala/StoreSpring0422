@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -71,6 +72,32 @@ public class UserServiceImpl implements UserService{
         return UserDTO.builder()
                 .username(user.getName())
                 .build();
+    }
+
+    @Override
+    public User findByName (String name) {
+        return userRepository.findFirstByName(name)
+    }
+
+    @Override
+    @Transactional
+    public void updateProfile (UserDTO dto) {
+        User savedUser = userRepository.findFirstByName(dto.getUsername());
+        if (savedUser == null) {
+            throw new RuntimeException("User not found by name " + dto.getUsername());
+        }
+
+        boolean isChanged = false;
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            savedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+            isChanged = true;
+        }
+
+        if (isChanged) {
+            userRepository.save(savedUser);
+        }
+
     }
 
 
