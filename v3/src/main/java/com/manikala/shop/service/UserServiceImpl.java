@@ -42,6 +42,12 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
         return true;
     }
+
+    @Override
+    public void save(User user) {
+          userRepository.save(user);
+    }
+
     @Override
     public List<UserDTO> getAll(){
         return userRepository.findAll().stream()
@@ -76,7 +82,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findByName (String name) {
-        return userRepository.findFirstByName(name)
+        return userRepository.findFirstByName(name);
     }
 
     @Override
