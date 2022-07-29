@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml", xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Product list</title>
@@ -11,13 +11,16 @@
     <tr>
         <td>Name</td>
         <td>Price</td>
+        <td>Description</td>
+        <td></td>
     </tr>
-    <tr th:each = "product : ${products}">
-        <td th:text = "${products.name}">Milk</td>
-        <td th:text = "${products.price}">100.0</td>
+     <tr th:each="product : ${products}">
+         <td th:text = "${product.name}">Milk</td>
+         <td th:text = "${product.price}">90.0</td>
+         <td th:text = "${product.description}">Dairy product</td>
+         <td><a th:href="@{/products/{id}/bucket(id=${product.id})}">Add to bucket</a></td>
     </tr>
 </table>
-
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 package com.manikala.shop.service;
 
 import com.manikala.shop.dao.ProductRepository;
-import com.manikala.shop.service.ProductService;
+//import com.manikala.shop.service.ProductService;
 import com.manikala.shop.dto.ProductDTO;
 import com.manikala.shop.mapper.ProductMapper;
 import com.manikala.shop.obj.Bucket;

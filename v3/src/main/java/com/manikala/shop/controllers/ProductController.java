@@ -1,6 +1,6 @@
 package com.manikala.shop.controllers;
 
-import com.manikala.shop.dao.ProductService;
+import com.manikala.shop.service.ProductService;
 import com.manikala.shop.dto.ProductDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -28,7 +28,7 @@ public class BucketServiceImpl implements BucketService {
         Bucket bucket = new Bucket();
         bucket.setUser(user);
         List<Product> productList = getCollectRefProductsByIds(productIds);
-        bucket.setProduct(productList);
+        bucket.setProducts(productList);
         return bucketRepository.save(bucket);
     }
 
@@ -41,10 +41,10 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public void addProducts (Bucket bucket, List<Long> productIds) {
-        List<Product> products = bucket.getProduct();
+        List<Product> products = bucket.getProducts();
         List<Product> newProductList = products == null ? new ArrayList<>() : new ArrayList<>(products);
         newProductList.addAll(getCollectRefProductsByIds(productIds));
-        bucket.setProduct(newProductList);
+        bucket.setProducts(newProductList);
         bucketRepository.save(bucket);
     }
 
