@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService extends UserDetailsService { //security
+public interface UserService extends UserDetailsService { // для security
     boolean save(UserDTO userDTO);
-    void save(User user);
+    void save(User user); // можем сохранять через дто и через юзера
     List<UserDTO> getAll();
 
     User findByName (String name);

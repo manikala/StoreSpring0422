@@ -23,7 +23,7 @@ public class Bucket {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
     //private String user;
-    private double totalAmount = 0;
+    //private double totalAmount = 0;
     //List<Product> products = new ArrayList<>();
 
     @OneToOne
@@ -31,7 +31,7 @@ public class Bucket {
     private User user;
 
     @ManyToMany
-    @JoinTable (name = "bucket_products",
+    @JoinTable (name = "buckets_products",
             joinColumns = @JoinColumn(name = "bucket_id"),
             inverseJoinColumns = @JoinColumn (name = "product_id"))
     private List<Product> products;

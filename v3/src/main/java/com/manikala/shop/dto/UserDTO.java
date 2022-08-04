@@ -5,10 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Data //генерирует конструктор, геттеры, сеттеры, методы equals, hashCode, toString.
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder //генерирует методы, которыми мы инициализируем объект по цепочке. Это удобно когда мы не хотим использовать конструктор со всеми параметрами
 public class UserDTO {
     private String username;
     private String password;

@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductMapper mapper = ProductMapper.MAPPER;
+    private final ProductMapper mapper = ProductMapper.MAPPER; //Подключаем маппер из продукт маппера
 
     private final ProductRepository productRepository;
     private final UserService userService;

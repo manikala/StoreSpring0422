@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // implements
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
-    @Basic
+    @Basic // для корректного обращения к нашим данным
     private AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // implements
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.CLIENT.name()) //Кто может просматривать users
+                .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name()) //Кто может просматривать users
                 .antMatchers("/user/new").hasAuthority(Role.ADMIN.name())//создание юзеров
                 .anyRequest().permitAll()
                 .and()
@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // implements
                     .permitAll()
                 .and()
                     .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//нужно будет сделать потом
-                    .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/").deleteCookies("JSESSIONID")//удаление куков
                     .invalidateHttpSession(true)
                 .and()
                     .csrf().disable();

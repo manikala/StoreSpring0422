@@ -38,7 +38,7 @@ public class UserController {
 
     @PostMapping ("/new")
     public  String saveUser (UserDTO dto, Model model) {
-        if (userService.save(dto)){
+        if (userService.save(dto)){ // Проверяем что сохранен юзер
             return "redirect:/users";
         } else {
             model.addAttribute("user", dto);
@@ -48,14 +48,14 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profileUser (Model model, Principal principal) {
+    public String profileUser (Model model, Principal principal) { //принципал это авторизованный пользователь с точки зрения секюрити
         if (principal == null) {
             throw new RuntimeException("You are not authorize");
         }
         User user = userService.findByName (principal.getName());
 
         UserDTO dto = UserDTO.builder()
-                .username(user.getName())
+                .username(user.getUsername())
                 .build();
         model.addAttribute("user", dto);
         return "profile";

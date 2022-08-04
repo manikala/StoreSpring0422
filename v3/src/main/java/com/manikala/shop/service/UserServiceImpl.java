@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService{
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
 //Сравниваем пароли
     @Override
     public boolean save(UserDTO userDTO) {
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService{
             throw new RuntimeException("Password is not equals");
         }
         User user = User.builder()
-                .name(userDTO.getUsername())
+                .username(userDTO.getUsername())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .role(Role.CLIENT)
                 .build();
@@ -67,7 +68,7 @@ public class UserServiceImpl implements UserService{
         roles.add(new SimpleGrantedAuthority(user.getRole().name()));
 
         return new org.springframework.security.core.userdetails.User(
-                user.getName(),
+                user.getUsername(),
                 user.getPassword(),
                 roles
         );
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService{
 
     private UserDTO toDto (User user) {
         return UserDTO.builder()
-                .username(user.getName())
+                .username(user.getUsername())
                 .build();
     }
 

@@ -9,14 +9,16 @@
 
 <table border="1" align="center">
     <tr>
-        <td>Name</td>
+        <td>Title</td>
         <td>Price</td>
+        <td>Amount</td>
         <td>Description</td>
         <td></td>
     </tr>
      <tr th:each="product : ${products}">
-         <td th:text = "${product.name}">Milk</td>
+         <td th:text = "${product.title}">Milk</td>
          <td th:text = "${product.price}">90.0</td>
+         <td th:text = "${product.amount}">10.0</td>
          <td th:text = "${product.description}">Dairy product</td>
          <td><a th:href="@{/products/{id}/bucket(id=${product.id})}">Add to bucket</a></td>
     </tr>
