@@ -55,7 +55,7 @@ public class UserController {
         User user = userService.findByName (principal.getName());
 
         UserDTO dto = UserDTO.builder()
-                .username(user.getUsername())
+                .username(user.getName())
                 .build();
         model.addAttribute("user", dto);
         return "profile";

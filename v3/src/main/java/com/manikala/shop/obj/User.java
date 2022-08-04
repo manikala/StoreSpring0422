@@ -21,7 +21,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
-    private String username;
+    private String name;
     private String lastname;
     private String firstname;
     private String password;
