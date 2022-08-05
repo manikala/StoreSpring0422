@@ -2,6 +2,7 @@ package com.manikala.shop.controllers;
 
 import com.manikala.shop.service.ProductService;
 import com.manikala.shop.dto.ProductDTO;
+import com.manikala.shop.service.SessionObjectHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,13 +17,18 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final SessionObjectHolder sessionObjectHolder;
 
-    public ProductController (ProductService productService) {
+    public ProductController(ProductService productService, SessionObjectHolder sessionObjectHolder) {
         this.productService = productService;
+        this.sessionObjectHolder = sessionObjectHolder;
     }
+
+
 
     @GetMapping
     public String list(Model model) {
+        sessionObjectHolder.addClick();
         List<ProductDTO> list = productService.getAll();
         model.addAttribute("products", list);
         return "products";
@@ -30,6 +36,7 @@ public class ProductController {
 
     @GetMapping("/{id}/bucket")
     public String addBucket (@PathVariable Long id, Principal principal) {
+        sessionObjectHolder.addClick();
         if (principal == null) {
             return "redirect:/products";
         }

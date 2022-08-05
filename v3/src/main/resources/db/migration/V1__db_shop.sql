@@ -12,7 +12,7 @@ create table users (
                        password varchar(255),
                        archive boolean not null,
                        role varchar(255),
-                       bucket_id int8,
+                       --bucket_id int8,
                        primary key (id)
 );
 -- BUCKET
