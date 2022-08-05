@@ -18,10 +18,10 @@
         <td></td>
     </tr>
     <tr th:each="detail : ${bucket.bucketDetails}">
-        <td th:text="$detail.title">Cheese</td>
-        <td th:text="$detail.amount">2</td>
-        <td th:text="$detail.price">11.0</td>
-        <td th:text="$detail.sum">22</td>
+        <td th:text = "${detail.title}">Cheese</td>
+        <td th:text = "${detail.amount}">2</td>
+        <td th:text = "${detail.price}">11.0</td>
+        <td th:text = "${detail.sum}">22</td>
         <td><a href="#">Remove</a></td>
     </tr>
 </table>
