@@ -4,11 +4,11 @@ import com.manikala.shop.dto.UserDTO;
 import com.manikala.shop.obj.User;
 import com.manikala.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.security.Principal;
@@ -30,11 +30,23 @@ public class UserController {
         return "userList";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')") //доступ сюда только админу
     @GetMapping("/new")
     public String newUser (Model model) {
+        System.out.println("called method newUser");
         model.addAttribute("user", new UserDTO());
         return "user";
     }
+    //всем авторизованным пользователем у которых имя равно текущему пользователю
+    @PostAuthorize("isAuthenticated() and #username == authentication.principal.username") //# - spel выражение. берем тикущий юзернейм и принципал
+    @GetMapping("/{name}/roles") //{} тоже spel выражение // просто обращение к полям
+    @ResponseBody
+    public String getRoles(@PathVariable("name") String username) {
+        System.out.println("called method getRoles");
+        User byName = userService.findByName(username);
+        return byName.getRole().name();
+    }
+
 
     @PostMapping ("/new")
     public  String saveUser (UserDTO dto, Model model) {

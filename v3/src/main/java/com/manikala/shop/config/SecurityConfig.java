@@ -22,7 +22,7 @@ import javax.persistence.Basic;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // implements SecurityFilterChain  extends WebSecurityConfigurerAdapter
 
     private UserService userService;
@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // implements
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name()) //Кто может просматривать users
-                .antMatchers("/user/new").hasAuthority(Role.ADMIN.name())//создание юзеров
+                //.antMatchers("/users/new").hasAuthority(Role.ADMIN.name())//создание юзеров
                 .anyRequest().permitAll()
                 .and()
                     .formLogin()
