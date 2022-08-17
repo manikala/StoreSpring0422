@@ -1,6 +1,7 @@
 package com.manikala.shop.config;
 
 
+import antlr.NameSpace;
 import com.manikala.shop.endpoint.GreetingEndpoint;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -17,6 +18,9 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 public class WebServiceConfig {
 
+    public static final String NAMESPACE_GREETING = "http://manikala.com/shop/ws/greeting";
+
+    // регистрируем точку в контексте, где будут находится веб сервисы
     @Bean
     public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
@@ -30,7 +34,7 @@ public class WebServiceConfig {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("GreetingPort");
         wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace(GreetingEndpoint.NAMESPACE_URL);
+        wsdl11Definition.setTargetNamespace(NAMESPACE_GREETING);
         wsdl11Definition.setSchema(xsdGreetingSchema());
         return wsdl11Definition;
     }
@@ -40,20 +44,7 @@ public class WebServiceConfig {
         return new SimpleXsdSchema(new ClassPathResource("ws/greeting.xsd"));
     }
 
-    @Bean(name = "products")
-    public DefaultWsdl11Definition productsWsdlDefinition() {
-        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-        wsdl11Definition.setPortTypeName("ProductsPort");
-        wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace(ProductsEndpoint.NAMESPACE_URL);
-        wsdl11Definition.setSchema(xsdProductsSchema());
-        return wsdl11Definition;
-    }
 
-    @Bean("productsSchema")
-    public XsdSchema xsdProductsSchema() {
-        return new SimpleXsdSchema(new ClassPathResource("ws/products.xsd"));
-    }
 
 }
 

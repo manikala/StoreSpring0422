@@ -1,6 +1,7 @@
 package com.manikala.shop.endpoint;
 
 
+import com.manikala.shop.config.WebServiceConfig;
 import com.manikala.shop.service.GreetingService;
 import com.manikala.shop.ws.greeting.GetGreetingRequest;
 import com.manikala.shop.ws.greeting.GetGreetingResponse;
@@ -15,7 +16,6 @@ import javax.xml.datatype.DatatypeConfigurationException;
 @Endpoint
 public class GreetingEndpoint {
 
-    public static final String NAMESPACE_URL = "http://manikala.com/shop/ws/greeting";
 
     private GreetingService greetingService;
 
@@ -24,7 +24,7 @@ public class GreetingEndpoint {
         this.greetingService = greetingService;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URL, localPart = "getGreetingRequest")
+    @PayloadRoot(namespace = WebServiceConfig.NAMESPACE_GREETING, localPart = "getGreetingRequest")
     @ResponsePayload
     public GetGreetingResponse getGreeting(@RequestPayload GetGreetingRequest request)
             throws DatatypeConfigurationException {
