@@ -5,7 +5,9 @@ import com.manikala.shop.dao.ProductRepository;
 import com.manikala.shop.dto.ProductDTO;
 import com.manikala.shop.mapper.ProductMapper;
 import com.manikala.shop.obj.Bucket;
+import com.manikala.shop.obj.Product;
 import com.manikala.shop.obj.User;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,11 +22,13 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final UserService userService;
     private final BucketService bucketService;
+    private final SimpMessagingTemplate template;
 
-    public ProductServiceImpl(ProductRepository productRepository, UserService userService, BucketService bucketService) {
+    public ProductServiceImpl(ProductRepository productRepository, UserService userService, BucketService bucketService, SimpMessagingTemplate template) {
         this.productRepository = productRepository;
         this.userService = userService;
         this.bucketService = bucketService;
+        this.template = template;
     }
 
     @Override
@@ -49,6 +53,16 @@ public class ProductServiceImpl implements ProductService {
             bucketService.addProducts(bucket, Collections.singletonList(productId));
         }
 
+    }
+
+    @Override
+    @Transactional
+    public void addProduct(ProductDTO dto) {
+        Product product = mapper.toProduct(dto);
+        Product savedProduct = productRepository.save(product);
+
+        template.convertAndSend("/topic/products",
+                ProductMapper.MAPPER.fromProduct(savedProduct));
     }
 
 }

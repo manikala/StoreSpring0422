@@ -1,28 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Product list</title>
+
+    <!--STOMP-->
+
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+
+
+    <!--app.js dependance: jquery-->
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/product.js"></script>
+
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<table border="1" align="center">
+<table border="1" align="center" id="table">
     <tr>
         <td>Title</td>
         <td>Price</td>
-        <td>Amount</td>
-        <td>Description</td>
+        <!--<td>Amount</td>
+        <td>Description</td>-->
         <td></td>
     </tr>
      <tr th:each="product : ${products}">
          <td th:text = "${product.title}">Milk</td>
          <td th:text = "${product.price}">90.0</td>
-         <td th:text = "${product.amount}">10.0</td>
-         <td th:text = "${product.description}">Dairy product</td>
+        <!-- <td th:text = "${product.amount}">10.0</td>
+         <td th:text = "${product.description}">Dairy product</td>-->
          <td><a th:href="@{/products/{id}/bucket(id=${product.id})}">Add to bucket</a></td>
     </tr>
 </table>
+
+<form style="text-align: center">
+    <table align="center">
+        <tr>
+            <td>Title</td>
+            <td><input type="text" id="title"></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input type="number" id="price"></td>
+        </tr>
+    </table>
+    <button id="send" type="submit">Submit</button>
+</form>
+
 
 </body>
 </html>
