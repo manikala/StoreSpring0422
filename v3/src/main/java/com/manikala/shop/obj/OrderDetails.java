@@ -33,4 +33,10 @@ public class OrderDetails {
     private BigDecimal amount; //количество
     private BigDecimal price;
 
+    public OrderDetails(Order order, Product product, Long amount) {
+        this.order = order;
+        this.product = product;
+        this.amount = new BigDecimal(amount);
+        this.price = product.getPrice();
+    }
 }

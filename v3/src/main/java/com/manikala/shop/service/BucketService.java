@@ -13,4 +13,6 @@ public interface BucketService {
 
     BucketDTO getBucketByUser (String name); // поиск карзины по юзеру
 
+    void commitBucketToOrder (String username);
+
 }

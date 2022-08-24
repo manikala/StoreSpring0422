@@ -72,7 +72,7 @@ public class UserController {
         model.addAttribute("user", dto);
         return "profile";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/profile")
     public String updateProfileUser (UserDTO dto, Model model, Principal principal) {
         if (principal == null || !Objects.equals(principal.getName(), dto.getUsername())) { //Чтобы пользователь не менял свое имя

@@ -121,7 +121,7 @@ create table orders_details (
                                 product_id int8 not null,
                                 amount numeric(19, 2),
                                 price numeric(19, 2),
-                                details_id int8 not null,
+                                details_id int8 /*not null*/,
                                 primary key (id)
 );
 

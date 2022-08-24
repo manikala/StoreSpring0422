@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService{
 
 //Сравниваем пароли
     @Override
+    @Transactional
     public boolean save(UserDTO userDTO) {
         if (!Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())) { //Сравниваем пароль
             throw new RuntimeException("Password is not equals");

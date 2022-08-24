@@ -39,7 +39,7 @@ public class Order {
     private BigDecimal sum;
     //private double quantity; //количество
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     //@JoinColumn(name = "order_id") //Проверить
     private List<OrderDetails> details;
 

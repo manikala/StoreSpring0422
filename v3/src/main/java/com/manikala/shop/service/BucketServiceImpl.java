@@ -4,9 +4,7 @@ import com.manikala.shop.dao.BucketRepository;
 import com.manikala.shop.dao.ProductRepository;
 import com.manikala.shop.dto.BucketDTO;
 import com.manikala.shop.dto.BucketDetailDTO;
-import com.manikala.shop.obj.Bucket;
-import com.manikala.shop.obj.Product;
-import com.manikala.shop.obj.User;
+import com.manikala.shop.obj.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,11 +20,13 @@ public class BucketServiceImpl implements BucketService {
     private final BucketRepository bucketRepository; //добавляем репозиторий корзины и продукта
     private final ProductRepository productRepository;
     private final UserService userService;
+    private final OrderService orderService;
 
-    public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, UserService userService) {
+    public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, UserService userService, OrderService orderService) {
         this.bucketRepository = bucketRepository;
         this.productRepository = productRepository;
         this.userService = userService;
+        this.orderService = orderService;
     }
 
 
@@ -48,6 +48,7 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
+    @Transactional
     public void addProducts (Bucket bucket, List<Long> productIds) {
         List<Product> products = bucket.getProducts();
         List<Product> newProductList = products == null ? new ArrayList<>() : new ArrayList<>(products);
@@ -84,6 +85,42 @@ public class BucketServiceImpl implements BucketService {
 
         return bucketDTO;
 
+    }
+
+
+    @Override
+    @Transactional
+    public void commitBucketToOrder(String username) {
+        User user = userService.findByName(username); //получаем корзину по юзеру
+        if(user == null){
+            throw new RuntimeException("User is not found");
+        }
+        Bucket bucket = user.getBucket();
+        if(bucket == null || bucket.getProducts().isEmpty()){
+            return; //возращаемся если корзины нет или она пуста
+        }
+
+        Order order = new Order();
+        order.setUser(user);
+
+        Map<Product, Long> productWithAmount = bucket.getProducts().stream() //берем все количество продуктов
+                .collect(Collectors.groupingBy(product -> product, Collectors.counting())); //групируем все через стримы
+
+        List<OrderDetails> orderDetails = productWithAmount.entrySet().stream()
+                .map(pair -> new OrderDetails(order, pair.getKey(), pair.getValue())) // в том числе по деталям заказа
+                .collect(Collectors.toList());
+
+        BigDecimal total = new BigDecimal(orderDetails.stream()
+                .map(detail -> detail.getPrice().multiply(detail.getAmount()))
+                .mapToDouble(BigDecimal::doubleValue).sum());
+
+        order.setDetails(orderDetails);
+        order.setSum(total);
+
+
+        orderService.saveOrder(order); //сохраянем наш заказ
+        bucket.getProducts().clear(); //очищаем корзину после заказа
+        bucketRepository.save(bucket); //и сохраняем
     }
 
 
