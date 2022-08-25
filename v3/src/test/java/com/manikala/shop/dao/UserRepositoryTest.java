@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-//@SqlGroup({@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:initUsers.sql")})
+@SqlGroup({@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:initUsers.sql")})
 class UserRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
@@ -42,7 +42,7 @@ class UserRepositoryTest {
 
     }
 
-/*    @Test
+    @Test
     void checkFindByNameAfterSql() {
         //execute
         User actualUser = userRepository.findFirstByName("admin");
@@ -54,5 +54,5 @@ class UserRepositoryTest {
         Assertions.assertEquals("adminpass", actualUser.getPassword());
         Assertions.assertEquals(Role.ADMIN, actualUser.getRole());
 
-    }*/
+    }
 }
