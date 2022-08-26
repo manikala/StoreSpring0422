@@ -74,8 +74,8 @@ public class BucketServiceImpl implements BucketService {
                 mapByProductId.put(product.getId(), new BucketDetailDTO(product));
 
             }else {
-                detail.setAmount(detail.getAmount().add(new BigDecimal(1.0)));
-                detail.setSum(detail.getSum() + Double.valueOf(product.getPrice().toString()));
+                detail.setAmount(detail.getAmount().add(new BigDecimal("1.0")));
+                detail.setSum(detail.getSum() + Double.parseDouble(product.getPrice().toString()));
             }
 
         }
