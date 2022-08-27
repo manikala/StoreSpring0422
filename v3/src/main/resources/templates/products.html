@@ -32,7 +32,7 @@
          <td th:text = "${product.price}">90.0</td>
         <!-- <td th:text = "${product.amount}">10.0</td>
          <td th:text = "${product.description}">Dairy product</td>-->
-         <td><a th:href="@{/products/{id}/bucket(id=${product.id})}">Add to bucket</a></td>
+         <td><a th:href="@{/products/{id}/bucket(id=${product.id})}">Add to bucket</a></td> <!--добавляем к определеному пользователю определенный продукт-->
     </tr>
 </table>
 

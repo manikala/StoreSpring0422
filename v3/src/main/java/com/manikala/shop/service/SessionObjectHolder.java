@@ -8,7 +8,7 @@ import org.springframework.web.context.WebApplicationContext;
 @Component
 @Scope (value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS) //бин будет работать в сессии
 public class SessionObjectHolder {
-
+    //просто поработал с сесией
     private long amountClicks = 0;
     public  SessionObjectHolder() {
         System.out.println("Session object created.");

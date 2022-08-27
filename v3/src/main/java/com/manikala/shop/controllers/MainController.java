@@ -13,21 +13,21 @@ import java.util.UUID;
 @Controller
 public class MainController {
 
-    private final SessionObjectHolder sessionObjectHolder;
+    private final SessionObjectHolder sessionObjectHolder; //создаем нашу сессию (объект в рамках сессии
 
     public MainController(SessionObjectHolder sessionObjectHolder) {
         this.sessionObjectHolder = sessionObjectHolder;
     }
 
     @RequestMapping({"", "/"})
-    public String index (Model model, HttpSession httpSession) {
-        model.addAttribute ("amountClicks", sessionObjectHolder.getAmountClicks());
+    public String index (Model model, HttpSession httpSession /*для вывода id сессии*/) {
+        model.addAttribute ("amountClicks", sessionObjectHolder.getAmountClicks()); //добавляем клики на главный экран
         if (httpSession.getAttribute("myID") == null) {
             String uuid = UUID.randomUUID().toString(); // генерируем айди сессии
             httpSession.setAttribute("myID", uuid); //добавляем инфу к http сессии чтобы потом было легко взять //uuid - url user id
             System.out.println("Generated UUID -> " + uuid);
         }
-        model.addAttribute("uuid", httpSession.getAttribute("myID"));
+        model.addAttribute("uuid", httpSession.getAttribute("myID")); //из http сессии взяли этот id
         return "index";
     }
 

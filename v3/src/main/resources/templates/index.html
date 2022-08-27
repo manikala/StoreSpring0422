@@ -7,7 +7,7 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<h2>Amount clicks -> <b th:text="${amountClicks}">10</b></h2>
-<h2>Your UUTD -> <b th:text="${uuid}">10</b></h2>
+<h2>Amount clicks -> <b th:text="${amountClicks}">10</b></h2> <!--сумма кликов в пределах одной сесси, просто эксперемент-->
+<h2>Your UUTD -> <b th:text="${uuid}">10</b></h2> <!--выводим id сессии сгенерированную в контроллере, просто эксперемент-->
 </body>
 </html>

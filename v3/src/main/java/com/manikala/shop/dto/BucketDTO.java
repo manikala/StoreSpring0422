@@ -17,7 +17,7 @@ public class BucketDTO {
     private Double sum;
     private List<BucketDetailDTO> bucketDetails = new ArrayList<>();
 
-    public void aggregate() { // агрегирует сумму по количеству товара
+    public void aggregate() { // агрегирует сумму по количеству товара, если добавили два сыра а сумма х2
         this.amountProducts = bucketDetails.size();
         this.sum = bucketDetails.stream()
                 .map(BucketDetailDTO::getSum)

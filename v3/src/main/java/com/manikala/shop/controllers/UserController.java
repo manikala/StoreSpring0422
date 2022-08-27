@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-    }
+    } //можно было бы сделать через сеттер, но так как final, нужен конструктор
 
     @GetMapping
     public String userList (Model model) {
@@ -59,8 +59,8 @@ public class UserController {
 
     }
 
-    @GetMapping("/profile")
-    public String profileUser (Model model, Principal principal) { //принципал это авторизованный пользователь с точки зрения секюрити
+    @GetMapping("/profile")//пользуемся классом принципал
+    public String profileUser (Model model, Principal principal) { //принципал это авторизованный пользователь с точки зрения спринг секюрити
         if (principal == null) {
             throw new RuntimeException("You are not authorize");
         }
@@ -75,14 +75,13 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/profile")
     public String updateProfileUser (UserDTO dto, Model model, Principal principal) {
-        if (principal == null || !Objects.equals(principal.getName(), dto.getUsername())) { //Чтобы пользователь не менял свое имя
+        if (principal == null || !Objects.equals(principal.getName(), dto.getUsername())) { //сравниваем по имени, можно и по id //Чтобы пользователь не менял свое имя
             throw new RuntimeException("You are not authorize");
         }
         if (dto.getPassword() != null
                 && !dto.getPassword().isEmpty()
-                && !Objects.equals(dto.getPassword(), dto.getMatchingPassword())) {
+                && !Objects.equals(dto.getPassword(), dto.getMatchingPassword())) {//если пароль не пустой и все поля заполнены возращаем дто
             model.addAttribute("user", dto);
-            //Should add anything message
             return "profile";
         }
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data // Геттеры сетеры и иколс
+@Data // Геттеры сетеры и иколс и тустринг
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder //DTO
@@ -30,6 +30,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE) //при удалении пользователя, карзина тоже удалится
     private Bucket bucket;
 }

@@ -22,26 +22,26 @@ public class ProductController {
 
     public ProductController(ProductService productService, SessionObjectHolder sessionObjectHolder) {
         this.productService = productService;
-        this.sessionObjectHolder = sessionObjectHolder;
+        this.sessionObjectHolder = sessionObjectHolder; //создали сессию
     }
 
 
 
     @GetMapping
     public String list(Model model) {
-        sessionObjectHolder.addClick();
+        sessionObjectHolder.addClick();//добавляем клик к сессии при переходе сюда
         List<ProductDTO> list = productService.getAll();
         model.addAttribute("products", list);
         return "products";
     }
 
     @GetMapping("/{id}/bucket")
-    public String addBucket (@PathVariable Long id, Principal principal) {
+    public String addBucket (@PathVariable Long id, Principal principal) { //@PathVariable Long id извлекаем из url id
         sessionObjectHolder.addClick();
         if (principal == null) {
             return "redirect:/products";
         }
-        productService.addToUserBucket(id, principal.getName());
+        productService.addToUserBucket(id, principal.getName()); //добавляем к бзеру по имени карзину
         return  "redirect:/products";
     }
 

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice
+@ControllerAdvice //данный контроллер отрабатывает на все приложение
 public class ErrorControllerAdvice {
 
     @ExceptionHandler(Exception.class) //ловим исключения

@@ -39,15 +39,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void addToUserBucket (Long productId, String username) {
-        User user = userService.findByName(username);
+        User user = userService.findByName(username); // ищем пользователя по юзер нейм
         if (user == null){
             throw new RuntimeException("User not found - " + username);
         }
 
-        Bucket bucket = user.getBucket();
+        Bucket bucket = user.getBucket(); // у юзера ищем бакет
         if (bucket == null) {
-            Bucket newBucket = bucketService.createBucket(user, Collections.singletonList(productId));
-            user.setBucket(newBucket);
+            Bucket newBucket = bucketService.createBucket(user, Collections.singletonList(productId)); // если бакет нул то мы ее создадим
+            user.setBucket(newBucket);// устанавливаем бакет к юзеру
             userService.save(user);
         } else {
             bucketService.addProducts(bucket, Collections.singletonList(productId));

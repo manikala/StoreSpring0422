@@ -34,9 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // implements
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
+        auth.authenticationProvider(authenticationProvider()); //аутификация
     }
-    @Basic // для корректного обращения к нашим данным
+    @Basic // для корректного обращения к нашим данным и сущнастям
     private AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
@@ -50,24 +50,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // implements
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception { // основные настройки
         http.authorizeHttpRequests()
                 .antMatchers("/ws").permitAll()
                 .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name()) //Кто может просматривать users
                 //.antMatchers("/users/new").hasAuthority(Role.ADMIN.name())//создание юзеров
-                .anyRequest().permitAll()
+                .anyRequest().permitAll()//все остальное доступно для всех юзеров
                 .and()
                     .formLogin()
                     .loginPage("/login")
                     .failureUrl("/login-error")
                     .loginProcessingUrl("/auth")//аунтификация
-                    .permitAll()
+                    .permitAll()// все это расрешено для всех пользователей
                 .and()
-                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//нужно будет сделать потом
+                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//разъедениение logout
                     .logoutSuccessUrl("/").deleteCookies("JSESSIONID")//удаление куков
-                    .invalidateHttpSession(true)
+                    .invalidateHttpSession(true)//проверка валидации сессии
                 .and()
-                    .csrf().disable();
+                    .csrf().disable();//подмена
 
 
     }

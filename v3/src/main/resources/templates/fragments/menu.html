@@ -13,8 +13,8 @@
                     <td>Menu -></td>
                     <td><a th:href="@{/}">Home</a></td>
                     <td><a th:href="@{/products}">Products</a></td>
-                    <td sec:authorize = "hasAnyAuthority ('ADMIN')"><a th:href="@{/users}">Users</a></td>
-                    <td sec:authorize = "isAuthenticated()"><a th:href = "@{/bucket}">Bucket</a></td>
+                    <td sec:authorize = "hasAnyAuthority ('ADMIN')"><a th:href="@{/users}">Users</a></td> <!--чтобы список юзеров видел только админ-->
+                    <td sec:authorize = "isAuthenticated()"><a th:href = "@{/bucket}">Bucket</a></td> <!--чтобы карзину видели только авторизованные пользователи-->
                 </tr>
             </table>
         </td>
@@ -22,10 +22,10 @@
         <td align="right">
             <div sec:authorize = "isAuthenticated()">
                 <div>
-                    Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Bill</span></a>
+                    Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Bill</span></a> <!--сылка на личные данные авторизованного пользователя-->
                 </div>
                 <div>
-                    <a th:href = "@{logout}">Logout</a>
+                    <a th:href = "@{logout}">Logout</a> <!--сама функция logout усть в security, поэтому самя ее не писал-->
                 </div>
             </div>
 

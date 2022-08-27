@@ -35,16 +35,16 @@ public class BucketServiceImpl implements BucketService {
     public Bucket createBucket (User user, List<Long> productIds) {
         Bucket bucket = new Bucket();
         bucket.setUser(user);
-        List<Product> productList = getCollectRefProductsByIds(productIds);
-        bucket.setProducts(productList);
+        List<Product> productList = getCollectRefProductsByIds(productIds);//список продуктов к данному пользователю
+        bucket.setProducts(productList); //данный метод будет вызываться из контроллера
         return bucketRepository.save(bucket);
     }
 
     private List<Product> getCollectRefProductsByIds (List<Long> productIds) {
         return productIds.stream()
-                .map(productRepository::getOne)//добавляем первый попавшийся продукт по id
+                .map(productRepository::getOne)//маппим тип, в данном случае id//добавляем первый попавшийся продукт по id
                 .collect(Collectors.toList());
-        // getOne вытаскивает ссылку на объект, findById - вытаскивает сам объект
+        // getOne вытаскивает ссылку на объект, findById - вытаскивает сам объект (нам это не нужно чтобы не достать всю начинку объекта)
     }
 
     @Override
@@ -58,7 +58,7 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public BucketDTO getBucketByUser (String name) { // чтобы правильно одсчитывалась сумма товаров
+    public BucketDTO getBucketByUser (String name) { // чтобы правильно одсчитывалась сумма товаров, подсчитываем через нашу функцию агрегет, добавляем в корзину и в стоимость
         User user = userService.findByName(name);
         if (user == null || user.getBucket() == null) {
             return new BucketDTO();
@@ -67,20 +67,20 @@ public class BucketServiceImpl implements BucketService {
         BucketDTO bucketDTO = new BucketDTO();
         Map<Long, BucketDetailDTO> mapByProductId= new HashMap<>();
 
-        List<Product> products = user.getBucket().getProducts();
+        List<Product> products = user.getBucket().getProducts(); //пройдемся по списку продуктов
         for (Product product : products) {
             BucketDetailDTO detail = mapByProductId.get(product.getId());
             if (detail == null) {
                 mapByProductId.put(product.getId(), new BucketDetailDTO(product));
 
             }else {
-                detail.setAmount(detail.getAmount().add(new BigDecimal("1.0")));
+                detail.setAmount(detail.getAmount().add(new BigDecimal("1.0")));//учитываем определенную стоимость
                 detail.setSum(detail.getSum() + Double.parseDouble(product.getPrice().toString()));
             }
 
         }
 
-        bucketDTO.setBucketDetails(new ArrayList<>(mapByProductId.values()));
+        bucketDTO.setBucketDetails(new ArrayList<>(mapByProductId.values())); //к бакетудто добавим все детали
         bucketDTO.aggregate();
 
         return bucketDTO;

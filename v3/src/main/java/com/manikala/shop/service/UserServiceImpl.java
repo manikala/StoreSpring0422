@@ -29,9 +29,9 @@ public class UserServiceImpl implements UserService{
         this.passwordEncoder = passwordEncoder;
     }
 
-//Сравниваем пароли
+
     @Override
-    @Transactional
+    @Transactional//Это позволяет нам устанавливать условия распространения, изоляции, тайм-аута, только для чтения и отката для нашей транзакции
     public boolean save(UserDTO userDTO) {
         if (!Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())) { //Сравниваем пароль
             throw new RuntimeException("Password is not equals");
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserDTO> getAll(){
-        return userRepository.findAll().stream()
+        return userRepository.findAll().stream() //мапим вручную дто через стрим , так как можно маппить еще через mapstruct
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
@@ -62,13 +62,13 @@ public class UserServiceImpl implements UserService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { //Находим загружаем юзера
         User user = userRepository.findFirstByName(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with name: " + username);
+            throw new UsernameNotFoundException("User not found with name: " + username); //от интерфейса получили исключение userDetailServise
         }
 
-        List<GrantedAuthority> roles = new ArrayList<>();
+        List<GrantedAuthority> roles = new ArrayList<>(); //grantedauthority интерфейс для получения полномочий для авторизации / управления доступом. (Просто разрешения) отspring security
         roles.add(new SimpleGrantedAuthority(user.getRole().name()));
 
-        return new org.springframework.security.core.userdetails.User(
+        return new org.springframework.security.core.userdetails.User(//спринговский юзер
                 user.getName(),
                 user.getPassword(),
                 roles
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void updateProfile (UserDTO dto) {
-        User savedUser = userRepository.findFirstByName(dto.getUsername());
+        User savedUser = userRepository.findFirstByName(dto.getUsername()); //находим пользователя по дто
         if (savedUser == null) {
             throw new RuntimeException("User not found by name " + dto.getUsername());
         }
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService{
 
         if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
             savedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
-            isChanged = true;
+            isChanged = true; //мы пересохраняем пользователя только если были изменения
         }
 
         if (isChanged) {
