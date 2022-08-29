@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>Product list</title>
 
+<!--    подключаем JS-->
     <!--STOMP-->
-
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 
@@ -19,7 +19,7 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<table border="1" align="center" id="table">
+<table border="1" align="center" id="table"> <!--id для того чтобы JS подконектился к табличке -->
     <tr>
         <td>Title</td>
         <td>Price</td>
@@ -36,6 +36,8 @@
     </tr>
 </table>
 
+
+<!--форма для ввода новых продуктов-->
 <form style="text-align: center">
     <table align="center">
         <tr>

@@ -12,15 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //тестирование не от junit а от spring
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //тестирование не от junit а от spring //и указываем что будем использовать рандомный порт
 class ProductControllerIT { //интеграционнный тест
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private TestRestTemplate restTemplate; //для тестирования REST
 
     @Test
     void checkGetProductById() {
-        ResponseEntity<ProductDTO> entity = restTemplate.getForEntity("/products/" + 1, ProductDTO.class);//какое содержание ответа должно быть
+        ResponseEntity<ProductDTO> entity = restTemplate.getForEntity("/products/" + 1, ProductDTO.class);//какое содержание ответа должно быть //корректно ли возратится продукт
         Assertions.assertEquals(HttpStatus.OK, entity.getStatusCode()); //сравниваем хороший статус и нет
     }
 }

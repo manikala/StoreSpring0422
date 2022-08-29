@@ -28,7 +28,7 @@ public class BucketController {
         }
         return "bucket";
     }
-
+//саздаем заказ
     @PostMapping("/bucket")
     public String commitBucket (Principal principal) {//при переходи на бакет передаем юзера
         if (principal != null) {

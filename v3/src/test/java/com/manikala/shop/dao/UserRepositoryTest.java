@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-@SqlGroup({@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:initUsers.sql")})
+@SqlGroup({@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:initUsers.sql")}) //загружаем sql скрипт и используем его перел методами
 class UserRepositoryTest {
 
     @Autowired
@@ -30,14 +30,14 @@ class UserRepositoryTest {
         user.setName("TestUser");
         user.setPassword("password");
 
-
+// сохраняем нашего юзера
         entityManager.persist(user);
 
         //execute
-        User actualUser = userRepository.findFirstByName("TestUser");
+        User actualUser = userRepository.findFirstByName("TestUser"); //находим юзера
 
         //check
-        Assertions.assertNotNull(actualUser);
+        Assertions.assertNotNull(actualUser);//и проверяем юзера
         Assertions.assertEquals(user.getName(), actualUser.getName());
         Assertions.assertEquals(user.getPassword(), actualUser.getPassword());
 
@@ -46,13 +46,15 @@ class UserRepositoryTest {
     @Test
     void checkFindByNameAfterSql() {
         //execute
-        User actualUser = userRepository.findFirstByName("admin");
+        User actualUser = userRepository.findFirstByName("man"); //проверяем пользователя из нашего скрипта 
 
         //check
         Assertions.assertNotNull(actualUser);
-        Assertions.assertEquals(5, actualUser.getId());
-        Assertions.assertEquals("admin", actualUser.getName());
-        Assertions.assertEquals("adminpass", actualUser.getPassword());
+        Assertions.assertEquals(3, actualUser.getId());
+        Assertions.assertEquals("man", actualUser.getName());
+        Assertions.assertEquals("val", actualUser.getLastname());
+        Assertions.assertEquals("man", actualUser.getFirstname());
+        Assertions.assertEquals("man", actualUser.getPassword());
         Assertions.assertEquals(Role.ADMIN, actualUser.getRole());
 
     }

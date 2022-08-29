@@ -63,11 +63,11 @@ class ProductControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/products")
                                 .accept(MediaType.TEXT_HTML)) //проверяем что в результате получим html
-                .andExpect(status().isOk())
+                .andExpect(status().isOk()) //проверяем статус
                 .andExpect(MockMvcResultMatchers
-                        .content().string(Matchers.containsString("<td>" + dto1.getTitle() + "</td>")))
+                        .content().string(Matchers.containsString("<td>" + dto1.getTitle() + "</td>"))) // проверяем наименование
                 .andExpect(MockMvcResultMatchers
-                        .content().string(Matchers.containsString("<td>" + dto2.getTitle() + "</td>")));
+                        .content().string(Matchers.containsString("<td>" + dto2.getTitle() + "</td>"))); //проверяем что содержится два продукта
 
     }
 }

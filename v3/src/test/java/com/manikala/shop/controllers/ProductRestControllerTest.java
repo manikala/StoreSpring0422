@@ -39,7 +39,7 @@ class ProductRestControllerTest {
     private ProductService productService;
     @MockBean
     private UserService userService;
-
+//у нас 1 продукт
     private ProductDTO dto = new ProductDTO(99L, 999, "Test Product", new BigDecimal(999),  new BigDecimal(99),"Test Product");
 
     @BeforeEach
@@ -50,10 +50,10 @@ class ProductRestControllerTest {
     @Test
     void getById() throws Exception {
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/api/v1/products/{id}", dto.getId())
-                                .accept(MediaType.APPLICATION_JSON))
+                        MockMvcRequestBuilders.get("/api/v1/products/{id}", dto.getId()) //отправляем запрос
+                                .accept(MediaType.APPLICATION_JSON)) //должен выйти json
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(99)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(99))) //и эти строки json должны содержать следующие строки
                 .andExpect(MockMvcResultMatchers.jsonPath("$.vendor", Matchers.is(999)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("Test Product")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.price", Matchers.is(999)))

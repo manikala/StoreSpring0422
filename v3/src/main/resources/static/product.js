@@ -17,6 +17,7 @@ function connect() {
     });
 }
 
+/*для связи с нашими топиками*/
 // хук на интерфейс
 $(function () {
     $("form").on('submit', function (e) {
@@ -28,7 +29,7 @@ $(function () {
 function sendContent() {
     stomp.send("/app/products", {}, JSON.stringify({
         'title': $("#title").val(),
-        'price': $("#price").val()
+        'price': $("#price").val() /*отправляются данные которые мы берем из формы*/
     }));
 }
 

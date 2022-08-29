@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-
+//для productRestController
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ProductController2IT {
@@ -29,7 +29,7 @@ class ProductController2IT {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @MockBean //заглушка продукт сервиса через эту анатацию
+    @MockBean //заглушка продуктсервиса через эту анатацию
     private ProductService productService;
 
     private ProductDTO expectedProduct = new ProductDTO(99L, 999, "Test Product", new BigDecimal(999),  new BigDecimal(99),"Test Product");

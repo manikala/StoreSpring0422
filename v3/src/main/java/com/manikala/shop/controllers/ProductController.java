@@ -50,11 +50,12 @@ public class ProductController {
         productService.addProduct(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-    @MessageMapping("/products")
+// События группируются в топики (topic). Топик похож на папку, а события — на файлы в этой папке. У топика может быть ноль, один или много издателей и подписчиков.
+    //Сокет — это программная (логическая) конечная точка, устанавливающая двунаправленную коммуникацию между сервером и одной или несколькими клиентскими программами
+    @MessageMapping("/products") // мы будем отправлять сообщения на нашу страничку для JS и работы с сокетами
     public void messageAddProduct(ProductDTO dto){
         productService.addProduct(dto);
-    }
+    }//отправляем общий спсиок продуктов для всех
 
     @GetMapping("/{id}") //поиск по айди
     @ResponseBody

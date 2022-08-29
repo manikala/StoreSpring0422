@@ -44,19 +44,20 @@ public class UserServiceImplTest {
     void checkFindByName() { //проверяем найдет ли пользователя по имени
         //have
         String name = "petr";
-        User expectedUser = User.builder().id(1L).name(name).build();
+        User expectedUser = User.builder().id(1L).name(name).build(); //билдер на юзера
 
         Mockito.when(userRepository.findFirstByName(Mockito.anyString())).thenReturn(expectedUser); //мокито это заглушка
 
         //execute
-        User actualUser = userService.findByName(name);
+        User actualUser = userService.findByName(name); // находим юзера
 
         //check
-        Assertions.assertNotNull(actualUser);
-        Assertions.assertEquals(expectedUser, actualUser);
+        Assertions.assertNotNull(actualUser); // проверяем что юзер не нул
+        Assertions.assertEquals(expectedUser, actualUser); // проверяем что актуальный и ожидаемый юзер правда
 
     }
 
+    //По сути тоже самое
     @Test
     void checkFindByNameExact() { //проврека по id
         //have
@@ -66,17 +67,17 @@ public class UserServiceImplTest {
         Mockito.when(userRepository.findFirstByName(Mockito.eq(name))).thenReturn(expectedUser);
 
         //execute
-        User actualUser = userService.findByName(name);
-        User rndUser = userService.findByName(UUID.randomUUID().toString());
+        User actualUser = userService.findByName(name); //проверка по имени
+        User rndUser = userService.findByName(UUID.randomUUID().toString()); //и по id
 
         //check
         Assertions.assertNotNull(actualUser);
         Assertions.assertEquals(expectedUser, actualUser);
 
-        Assertions.assertNull(rndUser);
+        Assertions.assertNull(rndUser); //проверяем что по постуму юзеру возращаестя нул а не что то еще
 
     }
-    @Test
+    @Test//тестируем дто
     void checkSaveIncorrectPassword(){
         //have
         UserDTO userDTO = UserDTO.builder()
@@ -94,7 +95,7 @@ public class UserServiceImplTest {
 
     }
 
-    @Test
+    @Test//тестируем дто
     void checkSave(){ // можем ли мы сохранить другого пользователя
         //have
         UserDTO userDTO = UserDTO.builder()
@@ -103,7 +104,7 @@ public class UserServiceImplTest {
                 .matchingPassword("password")
                 .build();
 
-        Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn("password");
+        Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn("password");//ставим заглушку и делаем условие
 
         //execute
         boolean result = userService.save(userDTO); //проверяем пытаемся что то сохранить

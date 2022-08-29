@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // implements
         http.authorizeHttpRequests()
                 .antMatchers("/ws").permitAll()
                 .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name()) //Кто может просматривать users
-                //.antMatchers("/users/new").hasAuthority(Role.ADMIN.name())//создание юзеров
+                //.antMatchers("/users/new").hasAuthority(Role.ADMIN.name())//создание юзеров (Здесь убрал и добавил @PreAuthorize в контроллере) тот же функционал
                 .anyRequest().permitAll()//все остальное доступно для всех юзеров
                 .and()
                     .formLogin()

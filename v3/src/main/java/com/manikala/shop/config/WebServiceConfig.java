@@ -15,7 +15,7 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
-@EnableWs
+@EnableWs //Добавьте эту аннотацию в @Configuration класс для определения конфигурации Spring Web Services в WsConfigurationSupport
 @Configuration
 public class WebServiceConfig {
 

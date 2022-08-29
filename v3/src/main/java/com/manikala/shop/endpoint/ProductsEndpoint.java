@@ -13,7 +13,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
-@Endpoint
+@Endpoint // конечная точна в url адресе //Endpoint – класс, который будет отвечать за обработку входящих запросов (своего рода точка входа).
 public class ProductsEndpoint {
 
     public static final String NAMESPACE_URL = "http://manikala.com/shop/ws/products";
@@ -25,8 +25,8 @@ public class ProductsEndpoint {
         this.productService = productService;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URL, localPart = "getProductsRequest")
-    @ResponsePayload
+    @PayloadRoot(namespace = NAMESPACE_URL, localPart = "getProductsRequest") //@PayloadRoot перед методом определяет, при получении какого запроса будет вызван данный метод.
+    @ResponsePayload //Метод также снабжен комментарием , указывающим, что возвращаемое значение используется в качестве полезной нагрузки ответного сообщени
     public GetProductsResponse getGreeting(@RequestPayload GetProductsRequest request)
             throws DatatypeConfigurationException {
         GetProductsResponse response = new GetProductsResponse();

@@ -16,7 +16,7 @@ public class GreetingServiceTest {
         GreetingService service = new GreetingService(); //создаем экземпляр для теста
 
         String name = "Petr";
-        LocalDate expectedDate = LocalDate.now();
+        LocalDate expectedDate = LocalDate.now();  //саоздаем локальную дату
 
         //execute - выполняем
         Greeting greeting = service.generateGreeting(name); // выполняем приветствие по данному имени

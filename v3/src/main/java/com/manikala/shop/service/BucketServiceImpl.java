@@ -87,7 +87,7 @@ public class BucketServiceImpl implements BucketService {
 
     }
 
-
+//Для того чтобы создать заказ
     @Override
     @Transactional
     public void commitBucketToOrder(String username) {

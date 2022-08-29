@@ -37,10 +37,12 @@ public class UserController {
         model.addAttribute("user", new UserDTO());
         return "user";
     }
+
+    // сделал просто так, эксперемент
     //всем авторизованным пользователем у которых имя равно текущему пользователю
-    @PostAuthorize("isAuthenticated() and #username == authentication.principal.username") //# - spel выражение. берем тикущий юзернейм и принципал
+    @PostAuthorize("isAuthenticated() and #username == authentication.principal.username") //# - spel выражение. берем тикущий юзернейм и принципал // всем аутарицированым пользователям даем смотреть роль но даже админ не сможет смотреть роль клиента
     @GetMapping("/{name}/roles") //{} тоже spel выражение // просто обращение к полям
-    @ResponseBody
+    @ResponseBody //сообщает контроллеру, что возвращаемый объект автоматически сериализуется в JSON и передается обратно в объект HttpResponse .
     public String getRoles(@PathVariable("name") String username) {
         System.out.println("called method getRoles");
         User byName = userService.findByName(username);

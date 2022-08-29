@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
         this.userService = userService;
         this.bucketService = bucketService;
-        this.template = template;
+        this.template = template; //Добавляем шаблон для стомпа
     }
 
     @Override
@@ -61,13 +61,13 @@ public class ProductServiceImpl implements ProductService {
         Product product = mapper.toProduct(dto);
         Product savedProduct = productRepository.save(product);
 
-        template.convertAndSend("/topic/products",
-                ProductMapper.MAPPER.fromProduct(savedProduct));
+        template.convertAndSend("/topic/products",// мы отправляем все в топик продукты
+                ProductMapper.MAPPER.fromProduct(savedProduct)); //стандартный маппер для продуктов, продукт будет добавляться через дто
     }
 
     @Override
-    public ProductDTO getById(Long id) {
-        Product product = productRepository.findById(id).orElse(new Product());
+    public ProductDTO getById(Long id) { //поиск по id
+        Product product = productRepository.findById(id).orElse(new Product());//пытаемся достучаться до репозитория
         return ProductMapper.MAPPER.fromProduct(product);
     }
 
